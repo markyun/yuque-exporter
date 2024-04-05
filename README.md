@@ -2,7 +2,8 @@
 # 语雀导出文档工具 (支持单独导出指定知识库)
 
 
-主要特色：不依赖语雀VIP才有的Token，原理是模拟用户浏览器操作一篇一篇导出 markdown 文档。基于 https://github.com/renyunkang/yuque-exporter.git 的版本进行微调修改，DIY成了自己用的版本。
+主要特色：不依赖语雀VIP才有的Token，原理是模拟用户浏览器操作一篇一篇导出 markdown 文档。
+基于 https://github.com/renyunkang/yuque-exporter.git 的版本进行微调修改，DIY成了自己用的版本。
 
 ## 快速使用
 
@@ -10,13 +11,13 @@
 **下载代码并安装依赖**
 ```bash
 
-  cd yuque-exporter
-  npm install  
+cd yuque-exporter
+npm install  
 
-  // chromium 在mac上默认安装英特尔版本，如果想安装M1版本需要使用下面方式安装
-  PUPPETEER_EXPERIMENTAL_CHROMIUM_MAC_ARM=1 npm install puppeteer
+// chromium 在mac上默认安装英特尔版本，如果想安装M1版本需要使用下面方式安装
+PUPPETEER_EXPERIMENTAL_CHROMIUM_MAC_ARM=1 npm install puppeteer
 
-  brew reinstall chromium
+brew reinstall chromium
   
 ```
 
@@ -36,14 +37,17 @@ USER=xxx PASSWORD=xxx  node main.js
 ps: 因为有些同学，知识库或文章太多，不需要全量下载（也会引起请求次数太多，超时失败），所以只下载需要的 books 知识库。可以在 getAllBooks 函数中，拿到 bookData 数据后进行判断。
 
 ```js
-// code位置  只下载指定的 4801602 知识库。
-
-if (object.books[i].id ===4801602) {}
+    // yuque-exporter-mjy/main.js 57 lines
+    // 这里可以传入指定的知识库 ID
+    // https://www.yuque.com/api/mine/book_stacks 值通过这个接口获取 
+    const booksId = '';
+    const books = await getAllBooks(page,booksId)
+    
 ```
 
 通过 https://www.yuque.com/api/mine/book_stacks 接口获取 全部 bookData 内容,拿到想要的 object.books[i].id。
 
-通过https://www.yuque.com/api/catalog_nodes?book_id=173556 +id 可以得到当前知识库的全部文章列表 getBookDetail 内容。（这样相当于，如果你想下载别人开放的知识库，也是可以DIY）
+通过https://www.yuque.com/api/catalog_nodes?book_id=173556 +id 可以得到当前知识库的全部文章列表 getBookDetail 内容。（这样相当于，如果你想下载别人开放的知识库，也是可以DIY代码实现）
 
 
 ### 语雀文档格式 处理
@@ -60,17 +64,17 @@ url 后面跟上下方的参数，也可以直接获取单篇文档的markdown�
 替换语雀图片后缀 这个步骤将会删除保存的图片的多余部分，使图片能够正常显示。这个方法无需运行脚本，只需要使用 Markdown 编辑器进行简单的文本替换操作即可解决问题。
 
 ```md
-#averageHue=[a-zA-Z0-9\-&=%\.]*
 
-<!-- 正侧替换为   空  -->
+<!-- 正侧替换为空  -->
+#averageHue=[a-zA-Z0-9\-&=%\.]*
 
 <!-- 同时项目的HTML头，添加下面的信息 -->
 
-  ["meta", { name: "referrer", content: "no-referrer" }],
+["meta", { name: "referrer", content: "no-referrer" }],
 
 ```
 
-下面是仓库原始介绍内容。
+下面开始，是仓库原始介绍内容。
 
 ### 功能：
 
