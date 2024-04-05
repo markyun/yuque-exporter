@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { type } from './const.js';
 
+// 导出文档
 export async function exportMarkDownFiles(page, books) {
     const folderPath = process.env.EXPORT_PATH;
     console.log("download folderPath: " + folderPath)
@@ -16,7 +17,7 @@ export async function exportMarkDownFiles(page, books) {
         console.log();
     }
 
-    console.log(`=====> Export successfully! Have a good day!`);
+    console.log(`=====> Export successfully! 下载已经完成`);
     console.log();
 }
 
@@ -69,6 +70,7 @@ async function downloadMardown(page, rootPath, book, mdname, docUrl) {
     // await page.waitForTimeout(1000);
 }
 
+//  重试尝试次数 maxRetries 默认为3
 async function downloadFile(page, rootPath, book, mdname, url, maxRetries = 3) {
     var retries = 0;
 
@@ -83,7 +85,7 @@ async function downloadFile(page, rootPath, book, mdname, url, maxRetries = 3) {
         } catch (error) {
             console.log(error);
             if (retries < maxRetries) {
-                console.log(`Retrying download... (attempt ${retries + 1})`);
+                console.log(`重试尝试 Retrying download... (attempt ${retries + 1})`);
                 retries++;
                 await downloadWithRetries();
             } else {
@@ -102,7 +104,7 @@ async function goto(page, link) {
 }
   
 async function waitForDownload(rootPath, book, mdname, started = false) {
-    const timeout = 10000; // 10s timeout
+    const timeout = 5000; // 5s timeout
     return new Promise((resolve, reject) => {
         // console.log(`======> watch ${rootPath} ${mdname}.md`)
         const watcher = fs.watch(rootPath, (eventType, filename) => {

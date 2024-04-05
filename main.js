@@ -37,7 +37,13 @@ async function run() {
     }
 
     // const page = await BrowserPage.getInstance();
-    const browser = await puppeteer.launch({ headless: true }); // true:not show browser
+    const browser = await puppeteer.launch({ headless: true, 
+    //  Mac指定Chromium的安装位置
+    executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    
+    // executablePath: 'chromium'
+    
+    }); // true:not show browser
     const page = await browser.newPage();
 
     // 检查是否存在 cookie 文件
@@ -45,8 +51,11 @@ async function run() {
     console.log(color.green("Login successfully!"))
     console.log()
 
-    console.log("Get book stacks ...")
-    const books = await getAllBooks(page)
+    console.log("获取全部知识库信息 Get book stacks ...")
+    // 这里可以传入指定的知识库 ID
+    // https://www.yuque.com/api/mine/book_stacks 接口获取 
+    const booksId = '';
+    const books = await getAllBooks(page,booksId)
     // console.log(books)
 
     console.log("Start export all books ...")

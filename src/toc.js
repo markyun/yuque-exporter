@@ -27,7 +27,7 @@ class Book {
     }
 }
 
-export async function getAllBooks(page) {
+export async function getAllBooks(page,booksId) {
     const books = [];
     const response = await page.goto('https://www.yuque.com/api/mine/book_stacks', { waitUntil: 'networkidle0' });
     const data = await response.text();
@@ -46,10 +46,24 @@ export async function getAllBooks(page) {
 
     for (const object of bookData) {
         for (let i = 0; i < object.books.length; i++) {
+            
+            // 下载指定知识库 值为 books 下的 id
+            // https://www.yuque.com/api/mine/book_stacks 接口获取 
+            if (booksId && object.books[i].id ===booksId) {
+                const book = new Book(object.books[i].id, delNonStdChars(object.books[i].name), object.books[i].slug);
+                console.log("book",book);
+                book.root = await getBookDetail(page, book);
+                book.user_url = object.books[i].user.login
+                books.push(book);  
+            }
+            
+            // 下载全部
+            /* 
             const book = new Book(object.books[i].id, delNonStdChars(object.books[i].name), object.books[i].slug);
             book.root = await getBookDetail(page, book);
             book.user_url = object.books[i].user.login
-            books.push(book);
+            books.push(book);  
+            */
         }
     }
 
