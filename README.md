@@ -24,10 +24,18 @@ brew reinstall chromium
   
 **运行node命令**
 
-```
+```js
 
 USER=xxx PASSWORD=xxx  node main.js
-  
+
+// Mac系统 下载图片
+python3 export-image.py
+
+// 需要先安装 requests
+pip3 install requests
+
+
+                                  
 ```
 
 
