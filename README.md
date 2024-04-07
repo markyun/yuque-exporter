@@ -3,6 +3,7 @@
 
 
 主要特色：不依赖语雀VIP才有的Token，原理是模拟用户浏览器操作一篇一篇导出 markdown 文档。
+文档在这里：https://markyun.github.io/blog/语雀文档导出工具/
 基于 https://github.com/renyunkang/yuque-exporter.git 的版本进行微调修改，DIY成了自己用的版本。
 
 ## 快速使用
